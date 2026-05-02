@@ -1,0 +1,6 @@
+public/
+resources/_gen/
+.conda/
+.env/
+.DS_Store
+Thumbs.db
