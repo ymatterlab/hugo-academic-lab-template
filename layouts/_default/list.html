@@ -1,0 +1,195 @@
+{{ define "main" }}
+<article class="page-header">
+  <h1>{{ .Title }}</h1>
+  <!-- {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }} -->
+</article>
+
+{{ if eq .Section "people" }}
+{{ $filters := slice
+  (dict "key" "pi" "label" "PI")
+  (dict "key" "postdoc" "label" "Postdoc")
+  (dict "key" "students" "label" "Students")
+  (dict "key" "visiting-student" "label" "Visiting Student")
+  (dict "key" "visiting-scholar" "label" "Visiting Scholar")
+  (dict "key" "alumni" "label" "Alumni")
+}}
+
+<section class="people-tools" aria-label="People filters">
+  <button class="people-filter is-active" type="button" data-people-filter="all">All</button>
+  {{ range $filters }}
+  <button class="people-filter" type="button" data-people-filter="{{ .key }}">{{ .label }}</button>
+  {{ end }}
+</section>
+
+<section class="grid two-up" aria-label="People directory">
+  {{ range site.Data.people }}
+  {{ $personName := .name }}
+  {{ $personGroup := default "" .group }}
+  {{ if not $personGroup }}
+    {{ $role := lower (default "" .role) }}
+    {{ if in $role "principal investigator" }}
+      {{ $personGroup = "pi" }}
+    {{ else if in $role "postdoc" }}
+      {{ $personGroup = "postdoc" }}
+    {{ else if in $role "visiting" }}
+      {{ if in $role "scholar" }}
+        {{ $personGroup = "visiting-scholar" }}
+      {{ else }}
+        {{ $personGroup = "visiting-student" }}
+      {{ end }}
+    {{ else if in $role "alumni" }}
+      {{ $personGroup = "alumni" }}
+    {{ else if or (in $role "student") (in $role "phd") }}
+      {{ $personGroup = "students" }}
+    {{ else }}
+      {{ $personGroup = "students" }}
+    {{ end }}
+  {{ end }}
+  <article class="card person-card" data-person-card data-person-group="{{ $personGroup }}">
+    <div class="person-card-header">
+      {{ with .photo }}
+      <img class="person-photo" src="{{ . | relURL }}" alt="{{ $personName }}">
+      {{ else }}
+      <span class="person-photo person-photo-placeholder" aria-hidden="true">{{ substr $personName 0 1 }}</span>
+      {{ end }}
+
+      <div>
+        <h2>{{ $personName }}</h2>
+
+        {{ with .role }}
+        <p class="muted">{{ . }}</p>
+        {{ end }}
+
+        {{ with .time }}
+        <p class="person-time">{{ . }}</p>
+        {{ end }}
+
+        {{ with .email }}
+        <p class="person-email">
+          <a href="mailto:{{ . }}">{{ . }}</a>
+        </p>
+        {{ end }}
+
+        {{ with .website }}
+        <p class="person-link">
+          <a href="{{ . }}" target="_blank" rel="noopener">Personal website</a>
+        </p>
+        {{ end }}
+      </div>
+    </div>
+
+    {{ with .bio }}
+    <p class="person-bio">{{ . }}</p>
+    {{ end }}
+  </article>
+  {{ end }}
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const filterButtons = Array.from(document.querySelectorAll("[data-people-filter]"));
+  const cards = Array.from(document.querySelectorAll("[data-person-card]"));
+
+  function setFilter(filter) {
+    filterButtons.forEach(function (button) {
+      button.classList.toggle("is-active", button.dataset.peopleFilter === filter);
+    });
+
+    cards.forEach(function (card) {
+      card.hidden = filter !== "all" && card.dataset.personGroup !== filter;
+    });
+  }
+
+  filterButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      setFilter(button.dataset.peopleFilter);
+    });
+  });
+});
+</script>
+
+{{ else if eq .Section "publications" }}
+{{ $pubs := sort site.Data.publications "sort_date" "desc" }}
+<section class="publication-overview">
+  <p><strong>{{ len $pubs }}</strong> publications imported from the group bibliography.</p>
+</section>
+
+<section class="publication-catalog" aria-label="Full publication list">
+  <ol class="publication-list full-publication-list">
+    {{ range $pubs }}
+    <li class="publication-item">
+      <article class="publication-entry">
+        <div class="publication-year-pill">{{ .year }}</div>
+
+        <div class="publication-body">
+          <div class="publication-title-row">
+            <h2>{{ .title }}</h2>
+
+            {{ with .doi }}
+            <div class="publication-altmetric">
+              <div class="altmetric-embed"
+                   data-badge-popover="right"
+                   data-doi="{{ . }}">
+              </div>
+            </div>
+            {{ end }}
+          </div>
+
+          <p class="publication-authors">
+            {{ replace .authors "Yue-Wen Fang" "<strong>Yue-Wen Fang</strong>" | safeHTML }}
+          </p>
+
+          <p class="publication-meta">
+            {{ with .journal }}<span>{{ . }}</span>{{ end }}
+            {{ with .volume }}<span>Vol. {{ . }}</span>{{ end }}
+            {{ with .number }}<span>No. {{ . }}</span>{{ end }}
+            {{ with .pages }}<span>{{ . }}</span>{{ end }}
+          </p>
+
+          {{ $doiURL := .doi_url }}
+          {{ if and (not $doiURL) .doi }}
+            {{ $doiURL = printf "https://doi.org/%s" .doi }}
+          {{ end }}
+
+          {{ if or $doiURL .free_full_text_url }}
+          <div class="publication-actions">
+            {{ with $doiURL }}
+            <a href="{{ . }}" target="_blank" rel="noopener">DOI</a>
+            {{ end }}
+
+            {{ $freeSource := .free_full_text_source }}
+            {{ with .free_full_text_url }}
+            <a href="{{ . }}"
+               target="_blank"
+               rel="noopener"
+               {{ with $freeSource }}title="Full free text via {{ . }}"{{ end }}>
+              Full free text
+            </a>
+            {{ end }}
+          </div>
+          {{ end }}
+        </div>
+      </article>
+    </li>
+    {{ else }}
+    <li>Publications will appear here soon.</li>
+    {{ end }}
+  </ol>
+</section>
+
+<script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+
+{{ else if eq .Section "contact" }}
+<section class="card contact-card">
+  <p><strong>PI:</strong> {{ site.Params.pi_name }}</p>
+  <p><strong>Email:</strong> <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></p>
+  <p><strong>Affiliation:</strong> {{ site.Params.affiliation }}</p>
+  <p><strong>Address:</strong> {{ site.Params.address }}</p>
+</section>
+
+{{ else }}
+<section class="card">
+  {{ .Content }}
+</section>
+{{ end }}
+{{ end }}

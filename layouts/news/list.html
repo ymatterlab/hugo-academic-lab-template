@@ -1,0 +1,95 @@
+{{ define "main" }}
+<article class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+</article>
+
+{{ $news := sort .RegularPages "File.BaseFileName" "desc" }}
+{{ $filters := slice
+  (dict "key" "honors" "label" "Honors")
+  (dict "key" "output" "label" "Output")
+  (dict "key" "life" "label" "Life")
+}}
+
+<section class="news-tools" aria-label="News filters">
+  <button class="news-filter is-active" type="button" data-news-filter="all">All</button>
+  {{ range $filters }}
+  <button class="news-filter" type="button" data-news-filter="{{ .key }}">{{ .label }}</button>
+  {{ end }}
+</section>
+
+<section class="news-timeline" aria-label="News timeline">
+  {{ range $news }}
+    {{ $page := . }}
+    {{ $recordDate := .Date }}
+    {{ with .File }}
+      {{ if findRE "^\\d{4}-\\d{2}$" .BaseFileName }}
+        {{ $recordDate = time.AsTime (printf "%s-01" .BaseFileName) }}
+      {{ end }}
+    {{ end }}
+    {{ $categories := default (slice) .Params.categories }}
+    {{ if reflect.IsMap $categories }}
+      {{ $categories = slice }}
+    {{ end }}
+    {{ $categoryKeys := slice }}
+    {{ range $categories }}
+      {{ $categoryKeys = $categoryKeys | append (urlize .) }}
+    {{ end }}
+    {{ if not $categoryKeys }}
+      {{ $categoryKeys = $categoryKeys | append "output" }}
+    {{ end }}
+
+    <article class="news-item" data-news-item data-news-categories="{{ delimit $categoryKeys " " }}">
+      <details class="news-details">
+        <summary>
+          <span class="news-date">{{ $recordDate.Format "January 2006" }}</span>
+          <span class="news-title">{{ .Title }}</span>
+          <span class="news-keywords" aria-label="News keywords">
+            {{ range $categoryKeys }}
+            <button class="news-keyword" type="button" data-news-keyword="{{ . }}">{{ humanize . }}</button>
+            {{ end }}
+          </span>
+        </summary>
+        <div class="news-story">
+          {{ .Content }}
+        </div>
+      </details>
+    </article>
+  {{ else }}
+    <p class="muted">News will appear here soon.</p>
+  {{ end }}
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const filterButtons = Array.from(document.querySelectorAll("[data-news-filter]"));
+  const keywordButtons = Array.from(document.querySelectorAll("[data-news-keyword]"));
+  const items = Array.from(document.querySelectorAll("[data-news-item]"));
+
+  function setFilter(filter) {
+    filterButtons.forEach(function (button) {
+      button.classList.toggle("is-active", button.dataset.newsFilter === filter);
+    });
+
+    items.forEach(function (item) {
+      const categories = (item.dataset.newsCategories || "").split(" ");
+      item.hidden = filter !== "all" && !categories.includes(filter);
+    });
+  }
+
+  filterButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      setFilter(button.dataset.newsFilter);
+    });
+  });
+
+  keywordButtons.forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      const filter = button.dataset.newsKeyword;
+      setFilter(filter);
+    });
+  });
+});
+</script>
+{{ end }}

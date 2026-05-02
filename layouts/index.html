@@ -1,0 +1,234 @@
+{{ define "main" }}
+<!-- <section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ site.Params.affiliation }}</p>
+    <h1>{{ site.Params.lab_name }}</h1>
+    <p class="lead">{{ site.Params.hero_text }}</p>
+    <p class="lead">{{ site.Params.hero_subtext }}</p>
+    <div class="button-row" aria-label="Primary pages">
+      <a class="button" href="{{ "/research/" | relURL }}">Research</a>
+      <a class="button button-secondary" href="{{ "/people/" | relURL }}">People</a>
+      <a class="button button-secondary" href="{{ "/publications/" | relURL }}">Publications</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div id="perovskite-viewer" class="crystal-viewer" aria-label="Rotating cubic PbTiO3 perovskite structure">
+      <div class="viewer-fallback" data-viewer-fallback aria-hidden="true">
+        <span class="atom atom-sr atom-corner-1"></span>
+        <span class="atom atom-sr atom-corner-2"></span>
+        <span class="atom atom-sr atom-corner-3"></span>
+        <span class="atom atom-sr atom-corner-4"></span>
+        <span class="atom atom-ti atom-center"></span>
+        <span class="atom atom-o atom-face-1"></span>
+        <span class="atom atom-o atom-face-2"></span>
+        <span class="atom atom-o atom-face-3"></span>
+      </div>
+    </div>
+    <p class="structure-caption">
+      <strong>SrTiO<sub>3</sub> perovskite</strong>
+      <span>Cubic ABO<sub>3</sub> structure.</span>
+    </p>
+  </div>
+</section> -->
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ site.Params.affiliation }}</p>
+    <h1>{{ site.Params.lab_name }}</h1>
+
+    <p class="lead">
+      <strong>{{ site.Params.hero_text }}</strong>
+    </p>
+
+    <p class="lead">
+      {{ site.Params.hero_subtext }}
+    </p>
+
+    <div class="button-row" aria-label="Primary pages">
+      <a class="button" href="{{ "/research/" | relURL }}">Research</a>
+      <a class="button button-secondary" href="{{ "/people/" | relURL }}">People</a>
+      <a class="button button-secondary" href="{{ "/publications/" | relURL }}">Publications</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div id="perovskite-viewer" class="crystal-viewer" aria-label="Rotating cubic PbTiO3 perovskite structure">
+      <div class="viewer-fallback" data-viewer-fallback aria-hidden="true">
+        <span class="atom atom-sr atom-corner-1"></span>
+        <span class="atom atom-sr atom-corner-2"></span>
+        <span class="atom atom-sr atom-corner-3"></span>
+        <span class="atom atom-sr atom-corner-4"></span>
+        <span class="atom atom-ti atom-center"></span>
+        <span class="atom atom-o atom-face-1"></span>
+        <span class="atom atom-o atom-face-2"></span>
+        <span class="atom atom-o atom-face-3"></span>
+      </div>
+    </div>
+    <p class="structure-caption">
+      <strong>SrTiO<sub>3</sub> perovskite</strong>
+      <span>Cubic ABO<sub>3</sub> structure.</span>
+    </p>
+  </div>
+</section>
+
+<section class="home-research" aria-label="Research overview">
+  {{ range site.Params.research_groups }}
+  <article class="research-group-card">
+    <div class="research-group-heading">
+      <h2>{{ .title }}</h2>
+      <a href="{{ "/research/" | relURL }}">Learn more</a>
+    </div>
+
+    <div class="research-topic-grid">
+      {{ range .items }}
+      <div class="research-topic-card">
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </article>
+  {{ end }}
+</section>
+
+<section class="grid two-up home-sections">
+  <section class="panel">
+    <h2>About the lab</h2>
+    <p>
+      We develop computational approaches to understand and design functional materials, bridging quantum mechanics, atomistic simulations, and data-driven methods.
+    </p>
+  </section>
+  <section class="panel link-panel">
+    <h2>Explore</h2>
+    <ul class="section-links">
+      <li><a href="{{ "/research/" | relURL }}">Research directions</a></li>
+      <li><a href="{{ "/people/" | relURL }}">Group members</a></li>
+      <li><a href="{{ "/publications/" | relURL }}">Publications</a></li>
+      <li><a href="{{ "/contact/" | relURL }}">Contact</a></li>
+    </ul>
+  </section>
+</section>
+
+<section class="publication-preview">
+  <div class="section-heading">
+    <h2>Latest Publications</h2>
+    <a href="{{ "/publications/" | relURL }}">View all</a>
+  </div>
+  <ul class="publication-list">
+    {{ range first 3 site.Data.publications }}
+    <li>
+      <strong>{{ .title }}</strong>
+      <span>{{ .authors }}</span>
+      <em>{{ .journal }} ({{ .year }})</em>
+      {{ if .doi_url }}<a href="{{ .doi_url }}" target="_blank" rel="noopener">DOI</a>{{ else if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">Link</a>{{ end }}
+    </li>
+    {{ else }}
+    <li>Publications will appear here soon.</li>
+    {{ end }}
+  </ul>
+</section>
+
+<script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const viewerElement = document.getElementById("perovskite-viewer");
+  if (!viewerElement || !window.$3Dmol) {
+    return;
+  }
+
+  const fallback = viewerElement.querySelector("[data-viewer-fallback]");
+  if (fallback) {
+    fallback.remove();
+  }
+
+  const viewer = $3Dmol.createViewer("perovskite-viewer", {
+    backgroundColor: "#f6f8f5"
+  });
+
+  const a = 3.905;
+  const cells = 2;
+  const atoms = [];
+  const seen = new Set();
+
+  function addAtom(element, x, y, z) {
+    const key = `${element}:${x.toFixed(3)}:${y.toFixed(3)}:${z.toFixed(3)}`;
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+    atoms.push(`${element} ${x.toFixed(3)} ${y.toFixed(3)} ${z.toFixed(3)}`);
+  }
+
+  for (let i = 0; i <= cells; i++) {
+    for (let j = 0; j <= cells; j++) {
+      for (let k = 0; k <= cells; k++) {
+        addAtom("Sr", i * a, j * a, k * a);
+      }
+    }
+  }
+
+  for (let i = 0; i < cells; i++) {
+    for (let j = 0; j < cells; j++) {
+      for (let k = 0; k < cells; k++) {
+        addAtom("Ti", (i + 0.5) * a, (j + 0.5) * a, (k + 0.5) * a);
+        addAtom("O", (i + 0.5) * a, (j + 0.5) * a, k * a);
+        addAtom("O", (i + 0.5) * a, j * a, (k + 0.5) * a);
+        addAtom("O", i * a, (j + 0.5) * a, (k + 0.5) * a);
+      }
+    }
+  }
+
+  const xyz = [atoms.length, "SrTiO3 cubic perovskite supercell", ...atoms].join("\n");
+
+  viewer.addModel(xyz, "xyz");
+
+  viewer.setStyle({elem: "Sr"}, {
+    sphere: {radius: 0.52, color: "#2f9e44"}
+  });
+
+  viewer.setStyle({elem: "Ti"}, {
+    sphere: {radius: 0.34, color: "#2563eb"}
+  });
+
+  viewer.setStyle({elem: "O"}, {
+    sphere: {radius: 0.28, color: "#dc2626"}
+  });
+
+  const length = a * cells;
+  const edgeColor = "#94a3b8";
+  const corners = [
+    [0, 0, 0], [length, 0, 0], [0, length, 0], [0, 0, length],
+    [length, length, 0], [length, 0, length], [0, length, length],
+    [length, length, length]
+  ];
+  const edges = [
+    [0, 1], [0, 2], [0, 3], [1, 4], [1, 5], [2, 4],
+    [2, 6], [3, 5], [3, 6], [4, 7], [5, 7], [6, 7]
+  ];
+
+  edges.forEach(function ([startIndex, endIndex]) {
+    const start = corners[startIndex];
+    const end = corners[endIndex];
+    viewer.addLine({
+      start: {x: start[0], y: start[1], z: start[2]},
+      end: {x: end[0], y: end[1], z: end[2]},
+      color: edgeColor,
+      linewidth: 2
+    });
+  });
+
+  viewer.zoomTo();
+  viewer.rotate(18, "x");
+  viewer.rotate(28, "y");
+  viewer.render();
+
+  function animate() {
+    viewer.rotate(0.45, "y");
+    viewer.render();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
+</script>
+{{ end }}

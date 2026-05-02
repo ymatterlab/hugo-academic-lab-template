@@ -1,0 +1,13 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <strong>{{ site.Params.lab_name }}</strong><br>
+      {{ site.Params.affiliation }}<br>
+      {{ site.Params.address }}
+    </div>
+    <div>
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a><br>
+      <a href="{{ "/disclaimer/" | relURL }}">Disclaimer</a>
+    </div>
+  </div>
+</footer>
