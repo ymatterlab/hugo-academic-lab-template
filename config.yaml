@@ -1,4 +1,4 @@
-baseURL: "https://example-lab.github.io/"
+baseURL: "https://ymatterlab.github.io/hugo-academic-lab-template/"
 languageCode: "en-us"
 title: "Example Research Group"
 summaryLength: 30

@@ -48,7 +48,8 @@
   <article class="card person-card" data-person-card data-person-group="{{ $personGroup }}">
     <div class="person-card-header">
       {{ with .photo }}
-      <img class="person-photo" src="{{ . | relURL }}" alt="{{ $personName }}">
+      {{ $photo := strings.TrimPrefix "/" . }}
+      <img class="person-photo" src="{{ $photo | relURL }}" alt="{{ $personName }}">
       {{ else }}
       <span class="person-photo person-photo-placeholder" aria-hidden="true">{{ substr $personName 0 1 }}</span>
       {{ end }}
