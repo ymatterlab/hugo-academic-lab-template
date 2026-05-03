@@ -25,8 +25,7 @@ This website may contain links to external sites. We are not responsible for the
 ## Copyright and Licensing
 
 
-- Source code: MIT License  
-- Website content: CC BY-NC 4.0 (unless otherwise stated)
+This template is licensed under the MIT License. Third-party materials, external links, and publications may be subject to separate terms.
 
 
 ## Contact

@@ -92,6 +92,28 @@ a {
   color: var(--accent);
 }
 
+.clone-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 2.25rem;
+  padding: 0.32rem 0.82rem;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.clone-button:hover {
+  background: #0b5f59;
+  border-color: #0b5f59;
+  color: #ffffff;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr);

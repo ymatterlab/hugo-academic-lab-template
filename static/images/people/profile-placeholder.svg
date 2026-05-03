@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Profile placeholder</title>
+  <desc id="desc">A generic placeholder avatar for a research group member.</desc>
+  <rect width="320" height="320" rx="28" fill="#eef2f7"/>
+  <circle cx="160" cy="118" r="58" fill="#94a3b8"/>
+  <path d="M68 282c12-62 49-96 92-96s80 34 92 96" fill="#64748b"/>
+  <path d="M80 282h160" stroke="#475569" stroke-width="12" stroke-linecap="round"/>
+</svg>

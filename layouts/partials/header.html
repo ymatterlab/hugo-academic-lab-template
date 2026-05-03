@@ -1,7 +1,7 @@
 <header class="site-header">
   <div class="container header-inner">
     <a class="site-brand" href="{{ "/" | relURL }}" aria-label="{{ site.Params.lab_name }} home">
-      <img src="{{ "/images/logo/YMatterLab-log-v3.svg" | relURL }}" alt="{{ site.Params.lab_name }}">
+      <img src="{{ "/images/logo/example-lab-logo.svg" | relURL }}" alt="{{ site.Params.lab_name }}">
     </a>
     <nav>
       <ul class="nav-list">
@@ -10,5 +10,8 @@
         {{ end }}
       </ul>
     </nav>
+    {{ with site.Params.repository_url }}
+    <a class="clone-button" href="{{ . }}" target="_blank" rel="noopener">Clone Me</a>
+    {{ end }}
   </div>
 </header>

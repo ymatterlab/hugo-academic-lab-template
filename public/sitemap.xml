@@ -2,34 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/news/2026-03/</loc>
+    <loc>https://example-lab.github.io/categories/</loc>
     <lastmod>2026-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://example-lab.github.io/news/2026-03/</loc>
     <lastmod>2026-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://example-lab.github.io/</loc>
     <lastmod>2026-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/honors/</loc>
+    <loc>https://example-lab.github.io/news/</loc>
     <lastmod>2026-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/news/</loc>
+    <loc>https://example-lab.github.io/categories/output/</loc>
     <lastmod>2026-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/news/2026-02/</loc>
+    <loc>https://example-lab.github.io/news/2026-02/</loc>
     <lastmod>2026-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/contact/</loc>
+    <loc>https://example-lab.github.io/categories/life/</loc>
+    <lastmod>2026-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/disclaimer/</loc>
+    <loc>https://example-lab.github.io/contact/</loc>
   </url><url>
-    <loc>http://localhost:1313/people/</loc>
+    <loc>https://example-lab.github.io/disclaimer/</loc>
   </url><url>
-    <loc>http://localhost:1313/publications/</loc>
+    <loc>https://example-lab.github.io/people/</loc>
   </url><url>
-    <loc>http://localhost:1313/research/</loc>
+    <loc>https://example-lab.github.io/publications/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://example-lab.github.io/research/</loc>
+  </url><url>
+    <loc>https://example-lab.github.io/tags/</loc>
   </url>
 </urlset>
