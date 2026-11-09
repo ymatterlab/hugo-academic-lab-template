@@ -42,3 +42,19 @@
   link: https://arxiv.org/abs/2609.33823
   free_full_text_url: https://arxiv.org/pdf/2609.33823
   free_full_text_source: arXiv
+
+# DOI 由中国注册机构注册，Crossref 查不到，元数据从 SciOpen 页面抄来。
+- key: ye_origin_2026
+  type: article
+  title: Origin of Tetragonal Distortion In New Lead-Free Perovskite Compounds of Na1/2Bi1/2VO3 and K1/2Bi1/2VO3
+  authors: Meng-Qi Ye, Zhao Pan, Yue-Wen Fang, Xu-Bin Ye, Zhi-Wei Hu, You-Wen Long
+  journal: Advanced Ceramics
+  year: '2026'
+  month: oct
+  sort_month: 10
+  volume: '47'
+  number: '5'
+  pages: 575-588
+  doi: 10.16253/j.cnki.37-1226/tq.2026.05.011
+  doi_url: https://doi.org/10.16253/j.cnki.37-1226/tq.2026.05.011
+  link: https://www.sciopen.com/article/10.16253/j.cnki.37-1226/tq.2026.05.011

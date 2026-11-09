@@ -17,6 +17,22 @@
   type: article
   volume: '751'
   year: '2027'
+- key: ye_origin_2026
+  type: article
+  title: Origin of Tetragonal Distortion In New Lead-Free Perovskite Compounds of Na1/2Bi1/2VO3 and K1/2Bi1/2VO3
+  authors: Meng-Qi Ye, Zhao Pan, Yue-Wen Fang, Xu-Bin Ye, Zhi-Wei Hu, You-Wen Long
+  journal: Advanced Ceramics
+  year: '2026'
+  month: oct
+  sort_month: 10
+  volume: '47'
+  number: '5'
+  pages: 575-588
+  doi: 10.16253/j.cnki.37-1226/tq.2026.05.011
+  doi_url: https://doi.org/10.16253/j.cnki.37-1226/tq.2026.05.011
+  link: https://www.sciopen.com/article/10.16253/j.cnki.37-1226/tq.2026.05.011
+  sort_year: 2026
+  sort_date: 202610
 - authors: Feiyu Qin, Ruihao Tan, Xiaoya Bai, Yue-Wen Fang, Lei Hu
   doi: 10.1016/j.scriptamat.2026.117396
   doi_url: https://doi.org/10.1016/j.scriptamat.2026.117396
@@ -161,6 +177,21 @@
   sort_year: 2026
   title: 'Advanced ferroelectric and piezoelectric materials: by Ivan A. Parinov, Sergey V. Zubkov, Alexander S. Skaliukh, Valery A. Chebanenko, Alexander V. Cherpakov and Yuri E. Drobotov, Singapore, World Scientific, 2024, 312 pp., GBP 85 (E-Book), ISBN: 9789811284267. Scope: review. Level: postgraduate, researcher, specialist, engineers.'
   type: article
+  year: '2026'
+- authors: Xinxin Li, Weishuo Xu, Jingming Shi, Hanyu Liu, Yue-Wen Fang, Wenwen Cui, Yinwei Li, Miguel A. L. Marques
+  doi: 10.1039/d6tc01827k
+  doi_url: https://doi.org/10.1039/d6tc01827k
+  journal: Journal of Materials Chemistry C
+  key: li_predicted_2026
+  link: http://pubs.rsc.org/TC/article-lookup/doi/10.1039/D6TC01827K
+  number: '41'
+  pages: 20017-20027
+  sort_date: 202600
+  sort_month: 0
+  sort_year: 2026
+  title: Predicted high- T c superconductivity above 130 K in metastable cubic MH 4 compounds at ambient pressure
+  type: article
+  volume: '14'
   year: '2026'
 - authors: Ruihao Tan, Kaiwang Zhang, Yue-Wen Fang
   doi: 10.20517/jmi.2025.62
