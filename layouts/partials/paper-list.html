@@ -1,0 +1,25 @@
+{{- /*
+  Render a list of papers looked up by DOI in data/publications.yaml.
+  Usage: {{ partial "paper-list.html" (dict "dois" (slice "10.x/y" ...) "class" "paper-links") }}
+  Titles, journals and years come from the generated publications data, so
+  there is nothing to keep in sync by hand. Unknown DOIs produce a build warning.
+*/ -}}
+{{- $pubs := site.Data.publications -}}
+<ul class="{{ .class | default "paper-links" }}">
+  {{- range .dois }}
+  {{- $want := lower . }}
+  {{- $found := false }}
+  {{- range $pubs }}
+    {{- if and (not $found) .doi }}
+      {{- if eq (lower (printf "%v" .doi)) $want }}
+        {{- $found = true }}
+  <li>
+    <a href="{{ .doi_url | default (printf "https://doi.org/%s" .doi) }}" target="_blank" rel="noopener">{{ .title | htmlUnescape }}</a>
+    <span>{{ .journal | htmlUnescape }} ({{ .year }})</span>
+  </li>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if not $found }}{{ warnf "paper-list: DOI %s not found in data/publications.yaml" . }}{{ end }}
+  {{- end }}
+</ul>

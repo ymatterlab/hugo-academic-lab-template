@@ -71,62 +71,159 @@
   </div>
 </section>
 
-<section class="home-research" aria-label="Research overview">
-  {{ range site.Params.research_groups }}
-  <article class="research-group-card">
-    <div class="research-group-heading">
-      <h2>{{ .title }}</h2>
-      <a href="{{ "/research/" | relURL }}">Learn more</a>
+{{ $topicAnchors := dict
+  "Quantum Materials" "quantum-materials"
+  "Information Materials" "information-materials"
+  "Energy Materials" "energy-materials"
+  "First-Principles & Atomistic Simulations" "methods"
+  "Materials Informatics" "methods-tools"
+  "Theory-Experiment Integration" "methods"
+}}
+<section class="home-block" aria-labelledby="areas-heading">
+  <div class="home-block-heading">
+    <div>
+      <p class="eyebrow">What we do</p>
+      <h2 id="areas-heading">Research Areas</h2>
     </div>
+    <a href="{{ "/research/" | relURL }}">Explore our research</a>
+  </div>
 
-    <div class="research-topic-grid">
-      {{ range .items }}
-      <div class="research-topic-card">
+  <div class="home-research">
+    {{ range site.Params.research_groups }}
+    <article class="research-group-card">
+      <div class="research-group-heading">
+        <h3>{{ .title }}</h3>
+        <a href="{{ "/research/" | relURL }}">Learn more</a>
+      </div>
+
+      <div class="research-topic-grid">
+        {{ range .items }}
+        {{ $anchor := index $topicAnchors .title | default "overview" }}
+        <a class="research-topic-card" href="{{ printf "/research/#%s" $anchor | relURL }}">
+          <h4>{{ .title }}</h4>
+          <p>{{ .text }}</p>
+        </a>
+        {{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </div>
+</section>
+
+{{ $featured := slice
+  (dict
+    "title" "Ferroelectricity down to 1 nanometer"
+    "text" "Ab initio calculations with crystal structure prediction predicted a new ferroelectric bismuth oxide, where a lone-pair-driven ferroelectricity still appears at 1 nm."
+    "line" "Information Materials" "anchor" "information-materials"
+    "img" "bismuth-oxide-dft-stem-science2023" "alt" "DFT energy landscape, electron localization function and predicted structure of Sm-substituted Bi6O9 with HAADF-STEM images."
+    "cite" "Science 379, 1218 (2023)" "doi" "10.1126/science.abm5134")
+  (dict
+    "title" "Giant electroresistance in atomic-scale tunnel junctions"
+    "text" "We are the earliest ones to propose the monolayer lateral ferroelectric tunnel junctions with giant electroresistance effects."
+    "line" "Information Materials" "anchor" "information-materials"
+    "img" "ftj-ter-origin-dft-ncomms2024" "alt" "Band diagrams, fitted current-voltage curves and DFT projected density of states of a ferroelectric tunnel junction."
+    "cite" "ACS Appl. Electron. Mater. 1, 7 (2019)" "doi" "10.1021/acsaelm.9b00146"
+    "cite2" "Nat. Commun. 15, 693 (2024)" "doi2" "10.1038/s41467-024-44927-7")
+  (dict
+    "title" "Hydride superconductors at ambient pressure"
+    "text" "Machine-learning screening maps candidate hydride superconductors; adding quantum anharmonic effects, RbPH₃ is predicted to stay stable at ambient pressure with Tc around 100 K."
+    "line" "Quantum Materials" "anchor" "quantum-materials"
+    "img" "hydride-screening-rbph3-adfm2024-commt2025" "alt" "Machine-learning screening map of hydride superconductors and harmonic versus anharmonic phonons of RbPH3."
+    "cite" "Adv. Funct. Mater. 34, 2404043 (2024)" "doi" "10.1002/adfm.202404043"
+    "cite2" "Comput. Mater. Today 8, 100043 (2025)" "doi2" "10.1016/j.commt.2025.100043")
+  (dict
+    "title" "Soft phonons, odd thermal expansion"
+    "text" "Phonon calculations and inelastic X-ray scattering link soft acoustic modes to negative or zero thermal expansion and ultralow thermal conductivity in Cd2Re2O7."
+    "line" "Energy Materials" "anchor" "energy-materials"
+    "img" "cd2re2o7-phonons-actamat2024" "alt" "Measured and calculated phonon dispersions and Grüneisen parameters of Cd2Re2O7."
+    "cite" "Acta Mater. 264, 119544 (2024)" "doi" "10.1016/j.actamat.2023.119544")
+}}
+
+<section class="home-block featured-work" aria-labelledby="featured-work-heading">
+  <div class="home-block-heading">
+    <div>
+      <p class="eyebrow">Highlights</p>
+      <h2 id="featured-work-heading">Featured Work</h2>
+    </div>
+    <a href="{{ "/research/" | relURL }}">All research</a>
+  </div>
+  <div class="featured-grid">
+    {{ range $featured }}
+    <article class="featured-card">
+      <a class="featured-thumb" href="{{ printf "/research/#%s" .anchor | relURL }}">
+        <img src="{{ printf "/images/research/thumbs/%s.webp" .img | relURL }}" alt="{{ .alt }}" loading="lazy">
+      </a>
+      <div class="featured-body">
+        <p class="featured-line">{{ .line }}</p>
         <h3>{{ .title }}</h3>
         <p>{{ .text }}</p>
+        <a class="featured-cite" href="https://doi.org/{{ .doi }}" target="_blank" rel="noopener">{{ .cite }}</a>
+        {{ if .doi2 }}<a class="featured-cite featured-cite-extra" href="https://doi.org/{{ .doi2 }}" target="_blank" rel="noopener">{{ .cite2 }}</a>{{ end }}
       </div>
-      {{ end }}
-    </div>
-  </article>
-  {{ end }}
+    </article>
+    {{ end }}
+  </div>
 </section>
 
-<section class="grid two-up home-sections">
-  <section class="panel">
-    <h2>About the lab</h2>
-    <p>
-      We develop computational approaches to understand and design functional materials, bridging quantum mechanics, atomistic simulations, and data-driven methods.
-    </p>
-  </section>
-  <section class="panel link-panel">
-    <h2>Explore</h2>
-    <ul class="section-links">
-      <li><a href="{{ "/research/" | relURL }}">Research directions</a></li>
-      <li><a href="{{ "/people/" | relURL }}">Group members</a></li>
-      <li><a href="{{ "/publications/" | relURL }}">Publications</a></li>
-      <li><a href="{{ "/contact/" | relURL }}">Contact</a></li>
+<div class="home-split">
+  <section class="publication-preview" aria-labelledby="latest-pubs-heading">
+    <div class="home-block-heading">
+      <div>
+        <p class="eyebrow">Recent output</p>
+        <h2 id="latest-pubs-heading">Latest Publications</h2>
+      </div>
+      <a href="{{ "/publications/" | relURL }}">View all</a>
+    </div>
+    <ul class="publication-list">
+      {{ range first 3 site.Data.publications }}
+      <li>
+        <strong>{{ .title }}</strong>
+        <span>{{ .authors }}</span>
+        <em>{{ .journal }} ({{ .year }})</em>
+        {{ if .doi_url }}<a href="{{ .doi_url }}" target="_blank" rel="noopener">DOI</a>{{ else if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">Link</a>{{ end }}
+      </li>
+      {{ else }}
+      <li>Publications will appear here soon.</li>
+      {{ end }}
     </ul>
   </section>
-</section>
 
-<section class="publication-preview">
-  <div class="section-heading">
-    <h2>Latest Publications</h2>
-    <a href="{{ "/publications/" | relURL }}">View all</a>
-  </div>
-  <ul class="publication-list">
-    {{ range first 3 site.Data.publications }}
-    <li>
-      <strong>{{ .title }}</strong>
-      <span>{{ .authors }}</span>
-      <em>{{ .journal }} ({{ .year }})</em>
-      {{ if .doi_url }}<a href="{{ .doi_url }}" target="_blank" rel="noopener">DOI</a>{{ else if .link }}<a href="{{ .link }}" target="_blank" rel="noopener">Link</a>{{ end }}
-    </li>
-    {{ else }}
-    <li>Publications will appear here soon.</li>
-    {{ end }}
-  </ul>
-</section>
+  <aside class="home-aside" aria-label="About the lab and latest news">
+    <section class="panel">
+      <h2>About the lab</h2>
+      <p>
+        We develop computational approaches to understand and design functional materials, bridging quantum mechanics, atomistic simulations, and data-driven methods.
+      </p>
+    </section>
+
+    <section class="panel home-news">
+      <div class="section-heading">
+        <h2>Latest News</h2>
+        <a href="{{ "/news/" | relURL }}">All news</a>
+      </div>
+      <ul class="home-news-list">
+        {{ range first 3 (where site.RegularPages "Section" "news").ByDate.Reverse }}
+        <li>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2006" }}</time>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+        {{ else }}
+        <li>News will appear here soon.</li>
+        {{ end }}
+      </ul>
+    </section>
+
+    <section class="panel link-panel">
+      <h2>Explore</h2>
+      <ul class="section-links">
+        <li><a href="{{ "/research/" | relURL }}">Research directions</a></li>
+        <li><a href="{{ "/people/" | relURL }}">Group members</a></li>
+        <li><a href="{{ "/publications/" | relURL }}">Publications</a></li>
+        <li><a href="{{ "/contact/" | relURL }}">Contact</a></li>
+      </ul>
+    </section>
+  </aside>
+</div>
 
 <section class="research-sponsors" aria-labelledby="research-sponsors-heading">
   <h2 id="research-sponsors-heading">Research Sponsors</h2>
